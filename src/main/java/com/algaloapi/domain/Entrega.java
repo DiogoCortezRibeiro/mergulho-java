@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -28,6 +29,8 @@ public class Entrega {
 
     // para que isso funcione na clsse destinatario temos que identificar que ela pode ser usada como embedded com o @Embeddable
     @Embedded // abstraimos o dado do destinatario para outra classe sem criar uma tabela destinatario
+    @NotNull
+    @Valid
     private Destinatario destinatario;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -38,9 +41,9 @@ public class Entrega {
     private BigDecimal taxa;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataPedido;
+    private OffsetDateTime dataPedido;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY) // consumidor da api pode passar o dado, porém não sera considerado será ignorado
-    private LocalDateTime dataFinalizacao;
+    private OffsetDateTime dataFinalizacao;
 
 }
