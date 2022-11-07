@@ -12,6 +12,8 @@ import javax.validation.groups.ConvertGroup;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,6 +28,9 @@ public class Entrega {
     @ConvertGroup(from = Builder.Default.class , to = ValidationGroups.ClienteId.class)
     @Valid
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "entrega")
+    private List<Ocorrencia> ocorrencias = new ArrayList<>();
 
     // para que isso funcione na clsse destinatario temos que identificar que ela pode ser usada como embedded com o @Embeddable
     @Embedded // abstraimos o dado do destinatario para outra classe sem criar uma tabela destinatario
@@ -46,4 +51,13 @@ public class Entrega {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY) // consumidor da api pode passar o dado, porém não sera considerado será ignorado
     private OffsetDateTime dataFinalizacao;
 
+    public Ocorrencia adicionarOcorrencia(String descricao) {
+        Ocorrencia ocorrencia = new Ocorrencia();
+        ocorrencia.setDescricao(descricao);
+        ocorrencia.setDataRegistro(OffsetDateTime.now());
+        ocorrencia.setEntrega(this);
+        this.getOcorrencias().add(ocorrencia);
+
+        return ocorrencia;
+    }
 }
