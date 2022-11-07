@@ -18,11 +18,11 @@ import java.util.Optional;
 public class EntregaService {
 
     private EntregaRepository entregaRepository;
-    private ClienteRepository clienteRepository;
+    private ClienteService clienteService;
 
     @Transactional
     public Entrega solicitar(Entrega entrega) {
-        Cliente cliente = clienteRepository.findById(entrega.getCliente().getId()).orElseThrow(() -> new NegocioException("Cliente não encotnrado"));
+        Cliente cliente = clienteService.buscar(entrega.getCliente().getId());
 
         entrega.setStatusEntrega(StatusEntrega.PENDENTE);
         entrega.setDataPedido(LocalDateTime.now());
