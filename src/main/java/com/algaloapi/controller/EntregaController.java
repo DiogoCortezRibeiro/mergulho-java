@@ -27,13 +27,13 @@ public class EntregaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Entrega solicitar(@Valid @RequestBody Entrega entrega) {
-        return entregaService.solicitar(entrega);
+    public EntregaDTO solicitar(@Valid @RequestBody Entrega entrega) {
+        return entregaMapper.toDTO(entregaService.solicitar(entrega));
     }
 
     @GetMapping
-    public List<Entrega> listar() {
-        return entregaRepository.findAll();
+    public List<EntregaDTO> listar() {
+        return entregaMapper.toCollectionDTO(entregaRepository.findAll());
     }
 
     @GetMapping("/{id}")
