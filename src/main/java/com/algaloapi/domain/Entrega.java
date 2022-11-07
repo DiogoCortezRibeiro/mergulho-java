@@ -29,7 +29,7 @@ public class Entrega {
     @Valid
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "entrega")
+    @OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
     private List<Ocorrencia> ocorrencias = new ArrayList<>();
 
     // para que isso funcione na clsse destinatario temos que identificar que ela pode ser usada como embedded com o @Embeddable
